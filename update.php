@@ -48,6 +48,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <html>
 <head>
     <title>Update Student Record</title>
+    <!-- Add Bootstrap CDN -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -62,63 +64,52 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             width: 300px;
         }
 
-        label {
-            display: block;
-            margin-top: 10px;
-        }
-
-        input[type="text"],
-        input[type="number"],
-        input[type="email"] {
-            width: 100%;
-            padding: 5px;
-            margin-top: 5px;
-        }
-
-        input[type="submit"] {
-            margin-top: 10px;
-            padding: 8px 12px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            cursor: pointer;
-        }
-
-        input[type="submit"]:hover {
-            background-color: #45a049;
-        }
-
         p.error {
             color: red;
         }
     </style>
 </head>
 <body>
-    <h1>Update Student Record</h1>
+    <div class="container">
+        <h1>Update Student Record</h1>
 
-    <?php
-    if (isset($updateError)) {
-        echo '<p class="error">' . $updateError . '</p>';
-    }
-    ?>
+        <?php
+        if (isset($updateError)) {
+            echo '<p class="error">' . $updateError . '</p>';
+        }
+        ?>
 
-    <form method="post" action="">
-        <label for="name">Name:</label>
-        <input type="text" id="name" name="name" required><br>
+        <form method="post" action="">
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" class="form-control" id="name" name="name" required>
+            </div>
 
-        <label for="age">Age:</label>
-        <input type="number" id="age" name="age" required><br>
+            <div class="form-group">
+                <label for="age">Age:</label>
+                <input type="number" class="form-control" id="age" name="age" required>
+            </div>
 
-        <label for="Course">Course:</label>
-        <input type="text" id="Course" name="Course" required><br>
+            <div class="form-group">
+                <label for="Course">Course:</label>
+                <input type="text" class="form-control" id="Course" name="Course" required>
+            </div>
 
-        <label for="Year_Level">Year Level:</label>
-        <input type="number" id="Year_Level" name="Year_Level" required><br>
+            <div class="form-group">
+                <label for="Year_Level">Year Level:</label>
+                <input type="number" class="form-control" id="Year_Level" name="Year_Level" required>
+            </div>
 
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" required><br>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" class="form-control" id="email" name="email" required>
+            </div>
 
-        <input type="submit" value="Update Student">
-    </form>
+            <button type="submit" class="btn btn-primary">Update Student</button>
+        </form>
+    </div>
+
+    <!-- Add Bootstrap JS CDN (optional) -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

@@ -41,33 +41,62 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <html>
 <head>
     <title>Add New Student</title>
+    <!-- Add Bootstrap CDN -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            max-width: 400px;
+        }
+    </style>
 </head>
 <body>
-    <h1>Add New Student</h1>
+    <div class="container">
+        <h1>Add New Student</h1>
 
-    <?php
-    if (isset($addError)) {
-        echo '<p>' . $addError . '</p>';
-    }
-    ?>
+        <?php
+        if (isset($addError)) {
+            echo '<p class="text-danger">' . $addError . '</p>';
+        }
+        ?>
 
-    <form method="post" action="">
-        <label for="name">Name:</label>
-        <input type="text" id="name" name="name" required><br>
+        <form method="post" action="">
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" class="form-control" id="name" name="name" required>
+            </div>
 
-        <label for="age">Age:</label>
-        <input type="number" id="age" name="age" required><br>
+            <div class="form-group">
+                <label for="age">Age:</label>
+                <input type="number" class="form-control" id="age" name="age" required>
+            </div>
 
-        <label for="Course">Course:</label>
-        <input type="text" id="Course" name="Course" required><br>
+            <div class="form-group">
+                <label for="Course">Course:</label>
+                <input type="text" class="form-control" id="Course" name="Course" required>
+            </div>
 
-        <label for="Year_Level">Year Level:</label>
-        <input type="number" id="Year_Level" name="Year_Level" required><br>
+            <div class="form-group">
+                <label for="Year_Level">Year Level:</label>
+                <input type="number" class="form-control" id="Year_Level" name="Year_Level" required>
+            </div>
 
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" required><br>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" class="form-control" id="email" name="email" required>
+            </div>
 
-        <input type="submit" value="Add Student">
-    </form>
+            <button type="submit" class="btn btn-primary">Add Student</button>
+        </form>
+    </div>
+
+    <!-- Add Bootstrap JS CDN (optional) -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
