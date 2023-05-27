@@ -12,157 +12,25 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
 <html>
 <head>
     <title>Student Records</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <style>
-    body {
-        font-family: Arial, sans-serif;
-        margin: 20px;
-    }
-
-    h1, h2 {
-        text-align: center;
-    }
-
-    table {
-        width: 100%;
-        border-collapse: collapse;
-    }
-
-    th, td {
-        padding: 10px;
-        text-align: left;
-        border-bottom: 1px solid #ddd;
-    }
-
-    th {
-        background-color: #f2f2f2;
-    }
-
-    .navbar {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 20px;
-        background-color: #f5f5f5;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-        padding: 10px;
-    }
-
-    .navbar h1 {
-        margin: 0;
-        font-size: 20px;
-        color: #333;
-    }
-
-    .logout {
-        text-align: right;
-    }
-
-    .logout a {
-        display: inline-block;
-        padding: 8px 16px;
-        text-decoration: none;
-        background-color: #007bff;
-        color: #fff;
-        border-radius: 4px;
-    }
-
-    .logout a:hover {
-        background-color: #0056b3;
-    }
-
-    .add-student {
-        margin-top: 20px;
-    }
-
-    a.button {
-        display: inline-block;
-        padding: 8px 16px;
-        text-decoration: none;
-        background-color: #007bff;
-        color: #fff;
-        border-radius: 4px;
-    }
-
-    a.button:hover {
-        background-color: #0056b3;
-    }
-
-    /* Modal styles */
-    .modal {
-        display: none;
-        position: fixed;
-        z-index: 1;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        overflow: auto;
-        background-color: rgba(0, 0, 0, 0.4);
-    }
-
-    .modal-content {
-        background-color: #fefefe;
-        margin: 15% auto;
-        padding: 20px;
-        border: none;
-        width: 30%; /* Adjust the width as needed */
-        border-radius: 5px;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-    }
-
-    .modal-header {
-        background-color: #f5f5f5;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-        padding: 5px; /* Adjust the padding as needed */
-        text-align: center;
-        margin-bottom: 30px; /* Increase the margin-bottom value */
-    }
-
-    .modal-body {
-        margin-bottom: 20px; /* Increase the margin-bottom value */
-    }
-
-    .modal-message {
-        background-color: #007bff;
-        color: #fff;
-        padding: 20px;
-        border-radius: 5px;
-        margin-bottom: 10px;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-    }
-
-    .modal-buttons {
-        text-align: right;
-    }
-
-    .modal-buttons button {
-        padding: 8px 16px;
-        background-color: #007bff;
-        color: #fff;
-        border-radius: 4px;
-        margin-left: 10px;
-        border: none;
-    }
-
-    .modal-buttons button:first-child {
-        margin-left: 0;
-    }
-
-    .modal-buttons button:hover {
-        background-color: #0056b3;
-    }
-</style>
-
-
-
+        .student-records-heading {
+            text-align: center;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+    </style>
 </head>
 <body>
+<link rel="stylesheet" href="style.css">
     <div class="navbar">
         <h1>Welcome, <?php echo $_SESSION['username']; ?>!</h1>
         <div class="logout"><a href="logout.php" class="button">Logout</a></div>
     </div>
 
-    <h2>Student Records</h2>
+    <h2 class="student-records-heading">Student Records</h2>
 
     <?php
     // Display student records from the database
@@ -180,12 +48,12 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
         while ($row = $result->fetch_assoc()) {
             echo '<tr>';
             echo '<td>' . $row['id'] . '</td>';
-            echo '<td>' . $row['name'] . '</td>';
-            echo '<td>' . $row['age'] . '</td>';
-            echo '<td>' . $row['Course'] . '</td>';
-            echo '<td>' . $row['Year_Level'] . '</td>';
-            echo '<td>' . $row['email'] . '</td>';
-            echo '<td><a href="update.php?id=' . $row['id'] . '" class="button">Edit</a> | <a href="#" onclick="openModal(' . $row['id'] . ')" class="button">Delete</a></td>';
+            echo '<td id="name-' . $row['id'] . '">' . $row['name'] . '</td>';
+            echo '<td id="age-' . $row['id'] . '">' . $row['age'] . '</td>';
+            echo '<td id="course-' . $row['id'] . '">' . $row['Course'] . '</td>';
+            echo '<td id="year-level-' . $row['id'] . '">' . $row['Year_Level'] . '</td>';
+            echo '<td id="email-' . $row['id'] . '">' . $row['email'] . '</td>';
+            echo '<td><a href="#" onclick="openEditModal(' . $row['id'] . ')" class="button">Edit</a> | <a href="#" onclick="openModal(' . $row['id'] . ')" class="button">Delete</a></td>';
             echo '</tr>';
         }
         echo '</table>';
@@ -200,33 +68,93 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
         <p><a href="create.php" class="button">Add New Student</a></p>
     </div>
 
-    <!-- Modal -->
+    <!-- Edit Modal -->
+<div id="edit-modal" class="modal-update">
+    <div class="modal-update-content">
+        <div class="modal-update-header">
+            <h2>Edit Student Record</h2>
+        </div>
+        <div class="modal-update-body">
+            <form action="update.php" method="POST">
+                <input type="hidden" name="studentId" id="edit-student-id">
+                <div class="form-group">
+                    <label for="edit-name">Name:</label>
+                    <input type="text" class="form-control" name="name" id="edit-name" required>
+                </div>
+                <div class="form-group">
+                    <label for="edit-age">Age:</label>
+                    <input type="number" class="form-control" name="age" id="edit-age" required>
+                </div>
+                <div class="form-group">
+                    <label for="edit-course">Course:</label>
+                    <div class="dropdown">
+                        <select class="form-control" name="course" id="edit-course" required>
+                            <option value="">Select Course</option>
+                            <option value="(AB) - ENGLISH">(AB) - ENGLISH</option>
+                            <option value="(AB) - LITERATURE">(AB) - LITERATURE</option>
+                            <option value="(AB) - POLSCI">(AB) - POLSCI</option>
+                            <option value="(AB) - PSYCH">(AB) - PSYCH</option>
+                            <option value="BEED">BEED</option>
+                            <option value="BPED">BPED</option>
+                            <option value="BSA">BSA</option>
+                            <option value="BSED">BSED</option>
+                            <option value="BSEE">BSEE</option>
+                            <option value="BSIT">BSIT</option>
+                            <option value="BSMA">BSMA</option>
+                        </select>
+                        <div class="dropdown-arrow"></div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="edit-year-level">Year Level:</label>
+                    <div class="dropdown">
+                        <select class="form-control" name="yearLevel" id="edit-year-level" required>
+                            <option value="">Select Year Level</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                        </select>
+                        <div class="dropdown-arrow"></div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="edit-email">Email:</label>
+                    <input type="email" class="form-control" name="email" id="edit-email" required>
+                </div>
+                <div class="button-container">
+                    <button type="submit" class="button button-primary">Save</button>
+                    <button type="button" onclick="closeEditModal()" class="button button-secondary">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+    <!-- Delete Modal -->
     <div id="modal" class="modal">
         <div class="modal-content">
-            <div class="modal-header">
-                <h2>Delete Student Record</h2>
-            </div>
             <div class="modal-body">
                 <p>Are you sure you want to delete this student record?</p>
+                <p>Please note that deleting a student record will permanently remove all associated data.</p>
                 <p>This action cannot be undone.</p>
             </div>
             <div class="modal-buttons">
-                <button onclick="deleteStudent()">Delete</button>
-                <button onclick="closeModal()">Cancel</button>
+                <button onclick="deleteStudent()" class="button button-primary">Delete</button>
+                <button onclick="closeModal()" class="button button-secondary">Cancel</button>
             </div>
         </div>
     </div>
 
     <script>
-        // Open the modal
+        // Open the modal for deleting
         function openModal(id) {
             const modal = document.getElementById('modal');
             modal.style.display = 'block';
-            // Pass the student ID to the deleteStudent function
             modal.dataset.studentId = id;
         }
 
-        // Close the modal
+        // Close the delete modal
         function closeModal() {
             const modal = document.getElementById('modal');
             modal.style.display = 'none';
@@ -236,9 +164,42 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
         function deleteStudent() {
             const modal = document.getElementById('modal');
             const studentId = modal.dataset.studentId;
-            closeModal();
-            // Redirect to delete.php with the student ID
-            window.location.href = 'delete.php?id=' + studentId;
+
+            // Send an AJAX request to delete.php
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', 'delete.php', true);
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status === 200) {
+                        // Deletion successful, refresh the page
+                        closeModal();
+                        location.reload();
+                    } else {
+                        // Deletion failed, display an error message
+                        console.error(xhr.responseText);
+                    }
+                }
+            };
+            xhr.send('deleteId=' + studentId);
+        }
+
+        // Open the modal for editing
+        function openEditModal(id) {
+            const modal = document.getElementById('edit-modal');
+            modal.style.display = 'block';
+            document.getElementById('edit-student-id').value = id;
+            document.getElementById('edit-name').value = document.getElementById('name-' + id).innerText;
+            document.getElementById('edit-age').value = document.getElementById('age-' + id).innerText;
+            document.getElementById('edit-course').value = document.getElementById('course-' + id).innerText;
+            document.getElementById('edit-year-level').value = document.getElementById('year-level-' + id).innerText;
+            document.getElementById('edit-email').value = document.getElementById('email-' + id).innerText;
+        }
+
+        // Close the edit modal
+        function closeEditModal() {
+            const modal = document.getElementById('edit-modal');
+            modal.style.display = 'none';
         }
     </script>
 </body>
