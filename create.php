@@ -12,8 +12,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Validate and process the form data
     $name = $_POST['name'];
     $age = $_POST['age'];
-    $Course = $_POST['Course'];
-    $Year_Level = $_POST['Year_Level'];
+    $course = $_POST['course'];
+    $yearLevel = $_POST['yearLevel'];
     $email = $_POST['email'];
 
     $mysqli = new mysqli('localhost', 'root', '', 'StudentRecords');
@@ -23,11 +23,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $sql = 'INSERT INTO students (name, age, Course, Year_Level, email) VALUES (?, ?, ?, ?, ?)';
     $stmt = $mysqli->prepare($sql);
-    $stmt->bind_param('sisss', $name, $age, $Course, $Year_Level, $email);
+    $stmt->bind_param('sisss', $name, $age, $course, $yearLevel, $email);
 
     if ($stmt->execute()) {
-        header('Location: index.php');
-        exit;
+        $successMessage = 'Student record added successfully.';
     } else {
         $addError = 'Error adding student record: ' . $stmt->error;
     }
@@ -54,15 +53,39 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         .container {
             max-width: 400px;
         }
+
+        .add-student-heading {
+            text-align: center;
+            font-size: 32px;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .btn-cancel {
+            margin-right: 10px;
+        }
+
+        .success-message {
+            color: #28a745;
+            margin-top: 10px;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+
+        .success-message.show {
+            opacity: 1;
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Add New Student</h1>
+        <h1 class="add-student-heading">Add New Student</h1>
 
         <?php
         if (isset($addError)) {
             echo '<p class="text-danger">' . $addError . '</p>';
+        } elseif (isset($successMessage)) {
+            echo '<p class="success-message">' . $successMessage . '</p>';
         }
         ?>
 
@@ -78,13 +101,38 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
 
             <div class="form-group">
-                <label for="Course">Course:</label>
-                <input type="text" class="form-control" id="Course" name="Course" required>
+                <label for="edit-course">Course:</label>
+                <div class="dropdown">
+                    <select class="form-control" name="course" id="edit-course" required>
+                        <option value="">Select Course</option>
+                        <option value="(AB) - ENGLISH">(AB) - ENGLISH</option>
+                        <option value="(AB) - LITERATURE">(AB) - LITERATURE</option>
+                        <option value="(AB) - POLSCI">(AB) - POLSCI</option>
+                        <option value="(AB) - PSYCH">(AB) - PSYCH</option>
+                        <option value="BEED">BEED</option>
+                        <option value="BPED">BPED</option>
+                        <option value="BSA">BSA</option>
+                        <option value="BSED">BSED</option>
+                        <option value="BSEE">BSEE</option>
+                        <option value="BSIT">BSIT</option>
+                        <option value="BSMA">BSMA</option>
+                    </select>
+                    <div class="dropdown-arrow"></div>
+                </div>
             </div>
 
             <div class="form-group">
-                <label for="Year_Level">Year Level:</label>
-                <input type="number" class="form-control" id="Year_Level" name="Year_Level" required>
+                <label for="edit-year-level">Year Level:</label>
+                <div class="dropdown">
+                    <select class="form-control" name="yearLevel" id="edit-year-level" required>
+                        <option value="">Select Year Level</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                    </select>
+                    <div class="dropdown-arrow"></div>
+                </div>
             </div>
 
             <div class="form-group">
@@ -93,10 +141,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
 
             <button type="submit" class="btn btn-primary">Add Student</button>
+            <a href="index.php" class="btn btn-secondary btn-cancel">Back</a>
         </form>
     </div>
 
     <!-- Add Bootstrap JS CDN (optional) -->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        // Code to hide the success message after a few seconds
+        setTimeout(function() {
+            var successMessage = document.querySelector('.success-message');
+            if (successMessage) {
+                successMessage.classList.remove('show');
+                setTimeout(function() {
+                    successMessage.style.display = 'none';
+                }, 500); // Change 1000 to the desired number of milliseconds for the fade-out animation duration
+            }
+        }, 3000); // Change 4000 to the desired number of milliseconds (e.g., 3000 for 3 seconds)
+
+        // Show the success message with animation
+        var successMessage = document.querySelector('.success-message');
+        if (successMessage) {
+            setTimeout(function() {
+                successMessage.classList.add('show');
+            }, 100); // Change 500 to the desired number of milliseconds for the delay before showing the message
+        }
+    </script>
 </body>
 </html>
