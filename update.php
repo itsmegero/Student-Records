@@ -53,19 +53,37 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <style>
         body {
             font-family: Arial, sans-serif;
-            margin: 20px;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 400px;
+            padding: 20px;
+            background-color: #f5f5f5;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
         }
 
         h1 {
+            text-align: center;
             margin-bottom: 20px;
         }
 
         form {
-            width: 300px;
+            width: 100%;
         }
 
-        p.error {
+        .error {
             color: red;
+            margin-bottom: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
         }
     </style>
 </head>
@@ -109,7 +127,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </form>
     </div>
 
-    <!-- Add Bootstrap JS CDN (optional) -->
+    <!-- Add Bootstrap JS CDN -->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
