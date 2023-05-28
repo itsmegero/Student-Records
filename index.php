@@ -62,6 +62,7 @@ $sortOrder = isset($_GET['order']) && $_GET['order'] === 'desc' ? 'desc' : 'asc'
             background-color: #0056b3;
         }
     </style>
+    
 </head>
 <body>
 <link rel="stylesheet" href="style.css">

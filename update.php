@@ -14,6 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $yearLevel = $_POST['yearLevel'];
     $email = $_POST['email'];
     $mysqli = new mysqli('localhost', 'root', '', 'StudentRecords');
+    
     if ($mysqli->connect_error) {
         die('Connect Error (' . $mysqli->connect_errno . ') ' . $mysqli->connect_error);
     }
