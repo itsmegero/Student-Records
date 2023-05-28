@@ -6,6 +6,23 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
     header('Location: login.php');
     exit;
 }
+
+// Define the available sorting options
+$sortOptions = [
+    'id' => 'ID',
+    'name' => 'Name',
+    'age' => 'Age',
+    'Course' => 'Course',
+    'Year_Level' => 'Year Level',
+    'email' => 'Email'
+];
+
+// Get the selected sort option
+$selectedSort = isset($_GET['sort']) && array_key_exists($_GET['sort'], $sortOptions) ? $_GET['sort'] : 'id';
+
+// Get the selected sort order
+$sortOrder = isset($_GET['order']) && $_GET['order'] === 'desc' ? 'desc' : 'asc';
+
 ?>
 
 <!DOCTYPE html>
@@ -21,6 +38,33 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
             font-size: 24px;
             margin-bottom: 20px;
         }
+
+        .sort-form {
+            display: flex;
+            align-items: center;
+            justify-content: left;
+            margin-bottom: 20px;
+        }
+
+        .sort-form label {
+            margin-right: 10px;
+        }
+
+        .sort-form select {
+            margin-right: 10px;
+            width: 150px; /* Adjust the width as desired */
+        }
+
+        .sort-form button {
+            margin-left: 10px;
+            background-color: #007bff;
+            color: white;
+            padding: 6px 16px;
+        }
+
+        .sort-form button:hover {
+            background-color: #0056b3;
+        }
     </style>
 </head>
 <body>
@@ -32,6 +76,24 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
 
     <h2 class="student-records-heading">Student Records</h2>
 
+    <!-- Sorting Form -->
+    <form class="sort-form" method="get">
+        <label for="sort-select">Sort By:</label>
+        <select class="form-control" name="sort" id="sort-select">
+            <?php foreach ($sortOptions as $optionValue => $optionLabel): ?>
+                <option value="<?php echo $optionValue; ?>" <?php echo $selectedSort === $optionValue ? 'selected' : ''; ?>><?php echo $optionLabel; ?></option>
+            <?php endforeach; ?>
+        </select>
+
+        <label for="order-select">Sort Order:</label>
+        <select class="form-control" name="order" id="order-select">
+            <option value="asc" <?php echo $sortOrder === 'asc' ? 'selected' : ''; ?>>Ascending</option>
+            <option value="desc" <?php echo $sortOrder === 'desc' ? 'selected' : ''; ?>>Descending</option>
+        </select>
+
+        <button type="submit" class="button">Sort</button>
+    </form>
+
     <?php
     // Display student records from the database
     $mysqli = new mysqli('localhost', 'root', '', 'StudentRecords');
@@ -39,7 +101,8 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
         die('Connect Error (' . $mysqli->connect_errno . ') ' . $mysqli->connect_error);
     }
 
-    $sql = 'SELECT * FROM students';
+    // Build the SQL query with sorting
+    $sql = "SELECT * FROM students ORDER BY $selectedSort $sortOrder";
     $result = $mysqli->query($sql);
 
     if ($result->num_rows > 0) {
