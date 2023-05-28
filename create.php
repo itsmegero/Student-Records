@@ -1,15 +1,12 @@
 <?php
 session_start();
 
-// Check if the user is logged in
 if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
     header('Location: login.php');
     exit;
 }
 
-// Check if the form is submitted
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Validate and process the form data
     $name = $_POST['name'];
     $age = $_POST['age'];
     $course = $_POST['course'];
@@ -40,7 +37,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <html>
 <head>
     <title>Add New Student</title>
-    <!-- Add Bootstrap CDN -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
         body {
@@ -145,26 +141,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </form>
     </div>
 
-    <!-- Add Bootstrap JS CDN (optional) -->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
-        // Code to hide the success message after a few seconds
         setTimeout(function() {
             var successMessage = document.querySelector('.success-message');
             if (successMessage) {
                 successMessage.classList.remove('show');
                 setTimeout(function() {
                     successMessage.style.display = 'none';
-                }, 500); // Change 1000 to the desired number of milliseconds for the fade-out animation duration
+                }, 500); 
             }
-        }, 3000); // Change 4000 to the desired number of milliseconds (e.g., 3000 for 3 seconds)
+        }, 3000);
 
-        // Show the success message with animation
         var successMessage = document.querySelector('.success-message');
         if (successMessage) {
             setTimeout(function() {
                 successMessage.classList.add('show');
-            }, 100); // Change 500 to the desired number of milliseconds for the delay before showing the message
+            }, 100); 
         }
     </script>
 </body>

@@ -1,13 +1,11 @@
 <?php
 session_start();
 
-// Check if the user is logged in
 if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
     header('Location: login.php');
     exit;
 }
 
-// Define the available sorting options
 $sortOptions = [
     'id' => 'ID',
     'name' => 'Name',
@@ -17,10 +15,8 @@ $sortOptions = [
     'email' => 'Email'
 ];
 
-// Get the selected sort option
 $selectedSort = isset($_GET['sort']) && array_key_exists($_GET['sort'], $sortOptions) ? $_GET['sort'] : 'id';
 
-// Get the selected sort order
 $sortOrder = isset($_GET['order']) && $_GET['order'] === 'desc' ? 'desc' : 'asc';
 
 ?>
@@ -52,7 +48,7 @@ $sortOrder = isset($_GET['order']) && $_GET['order'] === 'desc' ? 'desc' : 'asc'
 
         .sort-form select {
             margin-right: 10px;
-            width: 150px; /* Adjust the width as desired */
+            width: 150px; 
         }
 
         .sort-form button {
@@ -76,7 +72,6 @@ $sortOrder = isset($_GET['order']) && $_GET['order'] === 'desc' ? 'desc' : 'asc'
 
     <h2 class="student-records-heading">Student Records</h2>
 
-    <!-- Sorting Form -->
     <form class="sort-form" method="get">
         <label for="sort-select">Sort By:</label>
         <select class="form-control" name="sort" id="sort-select">
@@ -95,13 +90,12 @@ $sortOrder = isset($_GET['order']) && $_GET['order'] === 'desc' ? 'desc' : 'asc'
     </form>
 
     <?php
-    // Display student records from the database
+
     $mysqli = new mysqli('localhost', 'root', '', 'StudentRecords');
     if ($mysqli->connect_error) {
         die('Connect Error (' . $mysqli->connect_errno . ') ' . $mysqli->connect_error);
     }
 
-    // Build the SQL query with sorting
     $sql = "SELECT * FROM students ORDER BY $selectedSort $sortOrder";
     $result = $mysqli->query($sql);
 
@@ -228,18 +222,15 @@ $sortOrder = isset($_GET['order']) && $_GET['order'] === 'desc' ? 'desc' : 'asc'
             const modal = document.getElementById('modal');
             const studentId = modal.dataset.studentId;
 
-            // Send an AJAX request to delete.php
             const xhr = new XMLHttpRequest();
             xhr.open('POST', 'delete.php', true);
             xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
             xhr.onreadystatechange = function() {
                 if (xhr.readyState === XMLHttpRequest.DONE) {
                     if (xhr.status === 200) {
-                        // Deletion successful, refresh the page
                         closeModal();
                         location.reload();
                     } else {
-                        // Deletion failed, display an error message
                         console.error(xhr.responseText);
                     }
                 }

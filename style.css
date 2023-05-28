@@ -58,19 +58,16 @@ th {
 
 .student-records-heading {
     text-align: center;
-    font-size: 36px; /* Increase the font size */
-    color: #111; /* Even darker color */
+    font-size: 36px; 
+    color: #111; 
     margin: 100px auto 40px;
     width: 70%;
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; /* Change font style */
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; 
 }
-
-  
 
 .add-student {
     margin-top: 20px;
 }
-
 
 a.button {
     display: inline-block;
@@ -87,8 +84,6 @@ a.button:hover {
     color: #ffffff;
 }
 
-
-/* Modal styles */
 .modal {
     display: none;
     position: fixed;
@@ -106,7 +101,7 @@ a.button:hover {
     margin: 15% auto;
     padding: 20px;
     border: none;
-    width: 30%; /* Adjust the width as needed */
+    width: 30%; 
     border-radius: 5px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
@@ -126,7 +121,7 @@ a.button:hover {
   
 
 .modal-body {
-    margin-bottom: 20px; /* Increase the margin-bottom value */
+    margin-bottom: 20px; 
 }
 
 .modal-message {
@@ -154,7 +149,6 @@ a.button:hover {
     margin-left: 0;
 }
 
-/* Modal Styles for update */
 .modal-update {
     display: none;
     position: fixed;
@@ -174,8 +168,6 @@ a.button:hover {
     border: 1px solid #888;
     max-width: 450px;
 }
-
-
 
 .modal-update-body {
     padding-bottom: 20px;
@@ -225,7 +217,6 @@ a.button:hover {
     margin-top: 20px;
 }
 
-/* sTYLE For add drop daown*/
 .dropdown {
     position: relative;
     display: inline-block;
