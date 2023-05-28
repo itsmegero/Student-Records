@@ -160,5 +160,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }, 100); 
         }
     </script>
+    
 </body>
 </html>
